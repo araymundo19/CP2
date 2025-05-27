@@ -62,6 +62,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
         btnModifyEmployee = new javax.swing.JButton();
         btnDeleteEmployee = new javax.swing.JButton();
         jLabel1 = new javax.swing.JLabel();
+        jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -82,6 +83,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
         jPanel1.setMaximumSize(new java.awt.Dimension(200, 500));
         jPanel1.setPreferredSize(new java.awt.Dimension(200, 500));
+        jPanel1.setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
         btnViewEmployee.setText("View Employee");
         btnViewEmployee.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -93,18 +95,21 @@ public class EmployeeListFrame extends javax.swing.JFrame {
                 btnViewEmployeeActionPerformed(evt);
             }
         });
+        jPanel1.add(btnViewEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 101, -1, -1));
 
         btnNewEmployee.setText("New Employee");
         btnNewEmployee.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnNewEmployee.setMaximumSize(new java.awt.Dimension(140, 30));
         btnNewEmployee.setMinimumSize(new java.awt.Dimension(140, 30));
         btnNewEmployee.setPreferredSize(new java.awt.Dimension(140, 30));
+        jPanel1.add(btnNewEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 149, -1, -1));
 
         btnModifyEmployee.setText("Modify Employee");
         btnModifyEmployee.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
         btnModifyEmployee.setMaximumSize(new java.awt.Dimension(140, 30));
         btnModifyEmployee.setMinimumSize(new java.awt.Dimension(140, 30));
         btnModifyEmployee.setPreferredSize(new java.awt.Dimension(140, 30));
+        jPanel1.add(btnModifyEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 197, -1, -1));
 
         btnDeleteEmployee.setText("Delete Employee");
         btnDeleteEmployee.setHorizontalTextPosition(javax.swing.SwingConstants.CENTER);
@@ -116,43 +121,14 @@ public class EmployeeListFrame extends javax.swing.JFrame {
                 btnDeleteEmployeeActionPerformed(evt);
             }
         });
+        jPanel1.add(btnDeleteEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 245, -1, -1));
 
         jLabel1.setFont(new java.awt.Font("sansserif", 1, 14)); // NOI18N
         jLabel1.setText("MotorPH Portal");
+        jPanel1.add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(38, 36, -1, -1));
 
-        javax.swing.GroupLayout jPanel1Layout = new javax.swing.GroupLayout(jPanel1);
-        jPanel1.setLayout(jPanel1Layout);
-        jPanel1Layout.setHorizontalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(22, 22, 22)
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                            .addComponent(btnModifyEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnViewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnDeleteEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(btnNewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(37, 37, 37)
-                        .addComponent(jLabel1)))
-                .addContainerGap(26, Short.MAX_VALUE))
-        );
-        jPanel1Layout.setVerticalGroup(
-            jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(35, 35, 35)
-                .addComponent(jLabel1)
-                .addGap(46, 46, 46)
-                .addComponent(btnViewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnNewEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnModifyEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(btnDeleteEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addContainerGap(224, Short.MAX_VALUE))
-        );
+        jLabel2.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/login-bg.jpg"))); // NOI18N
+        jPanel1.add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, -1, -1));
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -237,6 +213,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnNewEmployee;
     private javax.swing.JButton btnViewEmployee;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
     private javax.swing.JTable jTable1;
