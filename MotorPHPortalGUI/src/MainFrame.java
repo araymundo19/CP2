@@ -1,6 +1,4 @@
 
-import javax.swing.ImageIcon;
-
 /*
  * Click nbfs://nbhost/SystemFileSystem/Templates/Licenses/license-default.txt to change this license
  * Click nbfs://nbhost/SystemFileSystem/Templates/GUIForms/JFrame.java to edit this template
@@ -10,6 +8,9 @@ import javax.swing.ImageIcon;
  *
  * @author Winter Melon
  */
+
+import java.util.List;
+
 public class MainFrame extends javax.swing.JFrame {
 
     /**
@@ -18,11 +19,22 @@ public class MainFrame extends javax.swing.JFrame {
     public MainFrame(String employeeId) {
     initComponents();
     setLocationRelativeTo(null);
-    lblFirstMessage.setText("Welcome, Employee " + employeeId);
     
-    ImageIcon gifIcon = new ImageIcon(getClass().getResource("resources/img/temp-logo.gif"));
-    mainLogo.setIcon(gifIcon);
+    String fullName = getEmployeeFullName(employeeId);
+    lblFirstMessage.setText("Welcome " + fullName + "!");
+
 }
+    
+    private String getEmployeeFullName(String employeeId) {
+    List<String[]> employees = CSVHelper.loadEmployeeData();
+    for (String[] emp : employees) {
+        if (emp[0].equals(employeeId)) {
+            return emp[2] + " " + emp[1];  // First Name + Last Name
+        }
+    }
+    return "Employee";
+}
+    
 public MainFrame() {
         this("Unknown");
     }
@@ -34,55 +46,40 @@ public MainFrame() {
     // <editor-fold defaultstate="collapsed" desc="Generated Code">//GEN-BEGIN:initComponents
     private void initComponents() {
 
+        imgLogo = new javax.swing.JLabel();
         lblFirstMessage = new javax.swing.JLabel();
         btnViewEmployeeList = new javax.swing.JButton();
-        jPanel1 = new javax.swing.JPanel();
-        mainLogo = new javax.swing.JLabel();
+        jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setResizable(false);
+        getContentPane().setLayout(new org.netbeans.lib.awtextra.AbsoluteLayout());
 
-        lblFirstMessage.setFont(new java.awt.Font("sansserif", 0, 18)); // NOI18N
-        lblFirstMessage.setText("Welcome");
+        imgLogo.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        imgLogo.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/temp-logo2.gif"))); // NOI18N
+        getContentPane().add(imgLogo, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 90, 540, -1));
 
-        btnViewEmployeeList.setFont(new java.awt.Font("Segoe UI", 1, 18)); // NOI18N
+        lblFirstMessage.setFont(new java.awt.Font("sansserif", 1, 18)); // NOI18N
+        lblFirstMessage.setForeground(new java.awt.Color(255, 255, 255));
+        lblFirstMessage.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        lblFirstMessage.setText("= Welcome Message =");
+        getContentPane().add(lblFirstMessage, new org.netbeans.lib.awtextra.AbsoluteConstraints(4, 220, 530, -1));
+
         btnViewEmployeeList.setText("View Employee List");
+        btnViewEmployeeList.setBorder(new javax.swing.border.LineBorder(new java.awt.Color(204, 204, 204), 1, true));
+        btnViewEmployeeList.setMaximumSize(new java.awt.Dimension(140, 30));
+        btnViewEmployeeList.setMinimumSize(new java.awt.Dimension(140, 30));
+        btnViewEmployeeList.setPreferredSize(new java.awt.Dimension(140, 30));
         btnViewEmployeeList.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 btnViewEmployeeListActionPerformed(evt);
             }
         });
+        getContentPane().add(btnViewEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 200, -1));
 
-        jPanel1.setLayout(new java.awt.GridBagLayout());
-        jPanel1.add(mainLogo, new java.awt.GridBagConstraints());
-
-        javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
-        getContentPane().setLayout(layout);
-        layout.setHorizontalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(148, 148, 148)
-                        .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(97, 97, 97)
-                        .addComponent(btnViewEmployeeList))
-                    .addGroup(layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(lblFirstMessage)))
-                .addContainerGap(110, Short.MAX_VALUE))
-        );
-        layout.setVerticalGroup(
-            layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
-                .addContainerGap(43, Short.MAX_VALUE)
-                .addComponent(jPanel1, javax.swing.GroupLayout.PREFERRED_SIZE, 97, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(18, 18, 18)
-                .addComponent(lblFirstMessage)
-                .addGap(18, 18, 18)
-                .addComponent(btnViewEmployeeList)
-                .addGap(68, 68, 68))
-        );
+        jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+        jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/login-bg.jpg"))); // NOI18N
+        getContentPane().add(jLabel1, new org.netbeans.lib.awtextra.AbsoluteConstraints(0, 0, 540, 400));
 
         pack();
     }// </editor-fold>//GEN-END:initComponents
@@ -128,8 +125,8 @@ public MainFrame() {
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnViewEmployeeList;
-    private javax.swing.JPanel jPanel1;
+    private javax.swing.JLabel imgLogo;
+    private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel lblFirstMessage;
-    private javax.swing.JLabel mainLogo;
     // End of variables declaration//GEN-END:variables
 }
