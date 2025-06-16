@@ -13,14 +13,37 @@ import java.text.SimpleDateFormat;
  *
  * @author Winter Melon
  */
-public class NewEmployeeFrame extends javax.swing.JFrame {
+public class ModifyEmployeeFrame extends javax.swing.JFrame {
 
     /**
-     * Creates new form NewEmployeeFrame
+     * Form ModifyEmployeeFrame
      */
-    public NewEmployeeFrame() {
+    public ModifyEmployeeFrame(String[] employeeData) {
         initComponents();
+        setLocationRelativeTo(null);
         setDefaultCloseOperation(javax.swing.WindowConstants.DISPOSE_ON_CLOSE);
+
+        // Constructor for ModifyFrame
+        txtEmployeeId.setText(employeeData[0]);
+        txtEmployeeId.setEditable(false); // Prevent ID from being edited
+        txtFirstName.setText(employeeData[1]);
+        txtLastName.setText(employeeData[2]);
+        txtBirthday.setText(employeeData[3]);
+        txtAddress.setText(employeeData[4]);
+        txtPhone.setText(employeeData[5]);
+        txtSSS.setText(employeeData[6]);
+        txtPhilHealth.setText(employeeData[7]);
+        txtTIN.setText(employeeData[8]);
+        txtPagIbig.setText(employeeData[9]);
+        txtStatus.setText(employeeData[10]);
+        txtPosition.setText(employeeData[11]);
+        txtSupervisor.setText(employeeData[12]);
+        txtBasicSalary.setText(employeeData[13]);
+        txtRiceSubsidy.setText(employeeData[14]);
+        txtPhoneAllowance.setText(employeeData[15]);
+        txtClothingAllowance.setText(employeeData[16]);
+        txtSemiGross.setText(employeeData[17]);
+        txtHourlyRate.setText(employeeData[18]);
     }
 
     /**
@@ -93,6 +116,7 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
 
         jLabel26.setText("Hourly Rate:");
 
+        txtEmployeeId.setBackground(new java.awt.Color(204, 204, 204));
         txtEmployeeId.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
                 txtEmployeeIdActionPerformed(evt);
@@ -141,7 +165,7 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
         jLabel21.setText("Salary Information");
 
         jLabel1.setFont(new java.awt.Font("Segoe UI", 1, 14)); // NOI18N
-        jLabel1.setText("Add New Employee");
+        jLabel1.setText("Modify Employee");
 
         jLabel22.setText("Rice Subsidy:*");
 
@@ -151,11 +175,11 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
             }
         });
 
-        jLabel2.setText("Employee ID:*");
+        jLabel2.setText("Employee ID:");
 
         jLabel23.setText("Phone Allowance:*");
 
-        btnRegisterEmployee.setText("Register Employee");
+        btnRegisterEmployee.setText("Save Changes");
         btnRegisterEmployee.setPreferredSize(new java.awt.Dimension(140, 30));
         btnRegisterEmployee.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
@@ -174,69 +198,71 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
         jPanel1Layout.setHorizontalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
             .addGroup(jPanel1Layout.createSequentialGroup()
-                .addGap(17, 17, 17)
                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                     .addGroup(jPanel1Layout.createSequentialGroup()
+                        .addGap(17, 17, 17)
                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
                             .addGroup(jPanel1Layout.createSequentialGroup()
                                 .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                    .addComponent(jLabel2)
-                                    .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
-                                        .addComponent(jLabel4)
-                                        .addComponent(jLabel3))
                                     .addGroup(jPanel1Layout.createSequentialGroup()
-                                        .addGap(1, 1, 1)
                                         .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-                                            .addComponent(jLabel7)
-                                            .addComponent(jLabel5)
-                                            .addComponent(jLabel8)
-                                            .addComponent(jLabel9)
-                                            .addComponent(jLabel11)
-                                            .addComponent(jLabel10)
-                                            .addComponent(jLabel13)
-                                            .addComponent(jLabel15)
-                                            .addComponent(jLabel17)
-                                            .addComponent(jLabel16)
-                                            .addComponent(jLabel18)
-                                            .addComponent(jLabel21)
-                                            .addComponent(jLabel20)
-                                            .addComponent(jLabel22)
-                                            .addComponent(jLabel23)
-                                            .addComponent(jLabel24)
-                                            .addComponent(jLabel26)
-                                            .addComponent(jLabel12))))
-                                .addGap(9, 9, 9))
-                            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
-                                .addComponent(jLabel25)
-                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
-                        .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
-                            .addComponent(txtFirstName)
-                            .addComponent(txtLastName)
-                            .addComponent(txtAddress)
-                            .addComponent(txtPhone)
-                            .addComponent(txtSSS)
-                            .addComponent(txtPhilHealth)
-                            .addComponent(txtTIN)
-                            .addComponent(txtPagIbig)
-                            .addComponent(txtStatus)
-                            .addComponent(txtPosition)
-                            .addComponent(txtSupervisor)
-                            .addComponent(txtBasicSalary)
-                            .addComponent(txtRiceSubsidy)
-                            .addComponent(txtPhoneAllowance)
-                            .addComponent(txtClothingAllowance)
-                            .addComponent(txtSemiGross)
-                            .addComponent(txtHourlyRate)
-                            .addComponent(txtEmployeeId, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
-                            .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                                            .addComponent(jLabel2)
+                                            .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
+                                                .addComponent(jLabel4)
+                                                .addComponent(jLabel3))
+                                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                                .addGap(1, 1, 1)
+                                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                                                    .addComponent(jLabel7)
+                                                    .addComponent(jLabel5)
+                                                    .addComponent(jLabel8)
+                                                    .addComponent(jLabel9)
+                                                    .addComponent(jLabel11)
+                                                    .addComponent(jLabel10)
+                                                    .addComponent(jLabel13)
+                                                    .addComponent(jLabel15)
+                                                    .addComponent(jLabel17)
+                                                    .addComponent(jLabel16)
+                                                    .addComponent(jLabel18)
+                                                    .addComponent(jLabel21)
+                                                    .addComponent(jLabel20)
+                                                    .addComponent(jLabel22)
+                                                    .addComponent(jLabel23)
+                                                    .addComponent(jLabel24)
+                                                    .addComponent(jLabel26)
+                                                    .addComponent(jLabel12))))
+                                        .addGap(9, 9, 9))
+                                    .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, jPanel1Layout.createSequentialGroup()
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 1, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                        .addComponent(jLabel25)
+                                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)))
+                                .addGroup(jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                                    .addComponent(txtFirstName)
+                                    .addComponent(txtLastName)
+                                    .addComponent(txtAddress)
+                                    .addComponent(txtPhone)
+                                    .addComponent(txtSSS)
+                                    .addComponent(txtPhilHealth)
+                                    .addComponent(txtTIN)
+                                    .addComponent(txtPagIbig)
+                                    .addComponent(txtStatus)
+                                    .addComponent(txtPosition)
+                                    .addComponent(txtSupervisor)
+                                    .addComponent(txtBasicSalary)
+                                    .addComponent(txtRiceSubsidy)
+                                    .addComponent(txtPhoneAllowance)
+                                    .addComponent(txtClothingAllowance)
+                                    .addComponent(txtSemiGross)
+                                    .addComponent(txtHourlyRate)
+                                    .addComponent(txtEmployeeId, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                    .addComponent(txtBirthday, javax.swing.GroupLayout.PREFERRED_SIZE, 177, javax.swing.GroupLayout.PREFERRED_SIZE)))
+                            .addGroup(jPanel1Layout.createSequentialGroup()
+                                .addGap(86, 86, 86)
+                                .addComponent(btnRegisterEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE))))
                     .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(89, 89, 89)
-                        .addComponent(jLabel1))
-                    .addGroup(jPanel1Layout.createSequentialGroup()
-                        .addGap(86, 86, 86)
-                        .addComponent(btnRegisterEmployee, javax.swing.GroupLayout.PREFERRED_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.PREFERRED_SIZE)))
-                .addContainerGap(56, Short.MAX_VALUE))
+                        .addGap(125, 125, 125)
+                        .addComponent(jLabel1)))
+                .addContainerGap(156, Short.MAX_VALUE))
         );
         jPanel1Layout.setVerticalGroup(
             jPanel1Layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -336,7 +362,9 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addComponent(jScrollPane1, javax.swing.GroupLayout.DEFAULT_SIZE, 400, Short.MAX_VALUE)
+            .addGroup(layout.createSequentialGroup()
+                .addComponent(jScrollPane1, javax.swing.GroupLayout.PREFERRED_SIZE, 500, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addGap(0, 0, Short.MAX_VALUE))
         );
         layout.setVerticalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
@@ -352,21 +380,12 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
         
         // Load current employees from the CSVHelper
         List<String[]> employees = CSVHelper.loadEmployeeData();
+        String targetId = txtEmployeeId.getText().trim();
         
-        // Check if Employee ID is unique "Primary key?"
-        String newId = txtEmployeeId.getText().trim();
-        for (String[] emp : employees) {
-            if (emp[0].equals(newId)) {
-                JOptionPane.showMessageDialog(this, "Employee ID already exists.");
-                return;
-            }
-        }
-
+        boolean updated = false;
+        
+        //Validation agains
         // Validate required fields
-        if (txtEmployeeId.getText().trim().isEmpty()) {
-            JOptionPane.showMessageDialog(this, "Employee ID is required.");
-            return;
-        }
         if (txtFirstName.getText().trim().isEmpty() || txtLastName.getText().trim().isEmpty()) {
             JOptionPane.showMessageDialog(this, "First and Last Name are required.");
             return;
@@ -396,35 +415,44 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
             return;
         }
         
-        // Employee Data format
-        String[] newEmployee = new String[] {
-            txtEmployeeId.getText().trim(),
-            txtFirstName.getText().trim(),
-            txtLastName.getText().trim(),
-            birthdayInput,
-            txtAddress.getText().trim(),
-            txtPhone.getText().trim(),
-            txtSSS.getText().trim(),
-            txtPhilHealth.getText().trim(),
-            txtTIN.getText().trim(),
-            txtPagIbig.getText().trim(),
-            txtStatus.getText().trim(),
-            txtPosition.getText().trim(),
-            txtSupervisor.getText().trim(),
-            txtBasicSalary.getText().trim(),
-            txtRiceSubsidy.getText().trim(),
-            txtPhoneAllowance.getText().trim(),
-            txtClothingAllowance.getText().trim(),
-            txtSemiGross.getText().trim(),
-            txtHourlyRate.getText().trim()
-        };
-        
-        // Add to CSV - overwrites the same file
-        employees.add(newEmployee);
-        CSVHelper.saveEmployeeData(employees);
-        
-        JOptionPane.showMessageDialog(this, "New employee added successfully!");
-        this.dispose();
+         // Loop through employees and replace matching one
+        for (int i = 0; i < employees.size(); i++) {
+            if (employees.get(i)[0].equals(targetId)) {
+                String[] updatedEmployee = new String[] {
+                    txtEmployeeId.getText().trim(),
+                    txtFirstName.getText().trim(),
+                    txtLastName.getText().trim(),
+                    birthdayInput,
+                    txtAddress.getText().trim(),
+                    txtPhone.getText().trim(),
+                    txtSSS.getText().trim(),
+                    txtPhilHealth.getText().trim(),
+                    txtTIN.getText().trim(),
+                    txtPagIbig.getText().trim(),
+                    txtStatus.getText().trim(),
+                    txtPosition.getText().trim(),
+                    txtSupervisor.getText().trim(),
+                    txtBasicSalary.getText().trim(),
+                    txtRiceSubsidy.getText().trim(),
+                    txtPhoneAllowance.getText().trim(),
+                    txtClothingAllowance.getText().trim(),
+                    txtSemiGross.getText().trim(),
+                    txtHourlyRate.getText().trim()
+                };
+
+                employees.set(i, updatedEmployee);
+                updated = true;
+                break;
+            }
+        }
+
+        if (updated) {
+            CSVHelper.saveEmployeeData(employees);
+            JOptionPane.showMessageDialog(this, "Employee updated successfully!");
+            this.dispose();
+        } else {
+            JOptionPane.showMessageDialog(this, "Employee not found.");
+        }
     }//GEN-LAST:event_btnRegisterEmployeeActionPerformed
 
     private void txtFirstNameActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_txtFirstNameActionPerformed
@@ -450,37 +478,6 @@ public class NewEmployeeFrame extends javax.swing.JFrame {
     /**
      * @param args the command line arguments
      */
-    public static void main(String args[]) {
-        /* Set the Nimbus look and feel */
-        //<editor-fold defaultstate="collapsed" desc=" Look and feel setting code (optional) ">
-        /* If Nimbus (introduced in Java SE 6) is not available, stay with the default look and feel.
-         * For details see http://download.oracle.com/javase/tutorial/uiswing/lookandfeel/plaf.html 
-         */
-        try {
-            for (javax.swing.UIManager.LookAndFeelInfo info : javax.swing.UIManager.getInstalledLookAndFeels()) {
-                if ("Nimbus".equals(info.getName())) {
-                    javax.swing.UIManager.setLookAndFeel(info.getClassName());
-                    break;
-                }
-            }
-        } catch (ClassNotFoundException ex) {
-            java.util.logging.Logger.getLogger(NewEmployeeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (InstantiationException ex) {
-            java.util.logging.Logger.getLogger(NewEmployeeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (IllegalAccessException ex) {
-            java.util.logging.Logger.getLogger(NewEmployeeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        } catch (javax.swing.UnsupportedLookAndFeelException ex) {
-            java.util.logging.Logger.getLogger(NewEmployeeFrame.class.getName()).log(java.util.logging.Level.SEVERE, null, ex);
-        }
-        //</editor-fold>
-
-        /* Create and display the form */
-        java.awt.EventQueue.invokeLater(new Runnable() {
-            public void run() {
-                new NewEmployeeFrame().setVisible(true);
-            }
-        });
-    }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
     private javax.swing.JButton btnRegisterEmployee;
