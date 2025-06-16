@@ -39,7 +39,7 @@ public class CSVHelper {
                 reader = new InputStreamReader(is, StandardCharsets.UTF_8);
             }
 
-            CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.withFirstRecordAsHeader());
+            CSVParser parser = new CSVParser(reader, CSVFormat.DEFAULT.builder().setHeader().setSkipHeaderRecord(true).get());
             for (CSVRecord record : parser) {
                 String[] row = new String[record.size()];
                 for (int i = 0; i < record.size(); i++) {

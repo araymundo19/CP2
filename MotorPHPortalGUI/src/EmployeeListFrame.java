@@ -11,10 +11,13 @@
 import java.io.*;
 import java.net.*;
 import java.util.List;
+import javax.swing.JOptionPane;
 import javax.swing.table.DefaultTableModel;
 
 public class EmployeeListFrame extends javax.swing.JFrame {
 
+    public static NewEmployeeFrame frmNewEmployee = new NewEmployeeFrame();
+    
     /**
      * Creates new form EmployeeListFrame
      */
@@ -44,7 +47,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
     }
 
     // Table Variable
-    jTable1.setModel(model);
+    employeeTable.setModel(model);
 }
           
     /**
@@ -55,7 +58,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
     private void initComponents() {
 
         jScrollPane1 = new javax.swing.JScrollPane();
-        jTable1 = new javax.swing.JTable();
+        employeeTable = new javax.swing.JTable();
         jPanel1 = new javax.swing.JPanel();
         btnViewEmployee = new javax.swing.JButton();
         btnNewEmployee = new javax.swing.JButton();
@@ -65,8 +68,10 @@ public class EmployeeListFrame extends javax.swing.JFrame {
         jLabel2 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
+        setTitle("MotorPH Portal - Employee List");
+        setType(java.awt.Window.Type.POPUP);
 
-        jTable1.setModel(new javax.swing.table.DefaultTableModel(
+        employeeTable.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
                 {null, null, null, null},
@@ -77,7 +82,7 @@ public class EmployeeListFrame extends javax.swing.JFrame {
                 "Title 1", "Title 2", "Title 3", "Title 4"
             }
         ));
-        jScrollPane1.setViewportView(jTable1);
+        jScrollPane1.setViewportView(employeeTable);
 
         jPanel1.setBackground(new java.awt.Color(8, 168, 138));
         jPanel1.setBorder(javax.swing.BorderFactory.createTitledBorder(""));
@@ -102,6 +107,11 @@ public class EmployeeListFrame extends javax.swing.JFrame {
         btnNewEmployee.setMaximumSize(new java.awt.Dimension(140, 30));
         btnNewEmployee.setMinimumSize(new java.awt.Dimension(140, 30));
         btnNewEmployee.setPreferredSize(new java.awt.Dimension(140, 30));
+        btnNewEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnNewEmployeeActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnNewEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 149, -1, -1));
 
         btnModifyEmployee.setText("Modify Employee");
@@ -109,6 +119,11 @@ public class EmployeeListFrame extends javax.swing.JFrame {
         btnModifyEmployee.setMaximumSize(new java.awt.Dimension(140, 30));
         btnModifyEmployee.setMinimumSize(new java.awt.Dimension(140, 30));
         btnModifyEmployee.setPreferredSize(new java.awt.Dimension(140, 30));
+        btnModifyEmployee.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                btnModifyEmployeeActionPerformed(evt);
+            }
+        });
         jPanel1.add(btnModifyEmployee, new org.netbeans.lib.awtextra.AbsoluteConstraints(23, 197, -1, -1));
 
         btnDeleteEmployee.setText("Delete Employee");
@@ -157,20 +172,99 @@ public class EmployeeListFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void btnViewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnViewEmployeeActionPerformed
-        int selectedRow = jTable1.getSelectedRow();
+        int selectedRow = employeeTable.getSelectedRow();
 
         if (selectedRow == -1) {
             javax.swing.JOptionPane.showMessageDialog(this, "Please select an employee first.");
             return;
         }
 
-        String employeeId = jTable1.getValueAt(selectedRow, 0).toString();
+        String employeeId = employeeTable.getValueAt(selectedRow, 0).toString();
         new EmployeeDetailsFrame(employeeId).setVisible(true);        
     }//GEN-LAST:event_btnViewEmployeeActionPerformed
 
     private void btnDeleteEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDeleteEmployeeActionPerformed
-        // TODO add your handling code here:
+        int selectedRow = employeeTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an employee to delete.");
+            return;
+        }
+
+        // Get the selected Employee ID
+        String employeeId = employeeTable.getValueAt(selectedRow, 0).toString();
+
+        // Confirmation 1
+        int confirm1 = JOptionPane.showConfirmDialog(this,
+            "This action is irreversible. Confirm deleting Employee #" +employeeId + "?",
+            "Confirm Deletion", JOptionPane.YES_NO_OPTION);
+
+        if (confirm1 == JOptionPane.YES_OPTION) {
+            
+        // Confirmation 2
+            int confirm2 = JOptionPane.showConfirmDialog(this,
+                    "Are you REALLY REALLY Sure? Confirm deleting Employee #" +employeeId + "?",
+                    "Final Confirmation", JOptionPane.YES_NO_OPTION);
+            
+            if (confirm2 == JOptionPane.YES_OPTION) {
+            List<String[]> employees = CSVHelper.loadEmployeeData();
+            boolean removed = employees.removeIf(emp -> emp[0].equals(employeeId));
+
+            if (removed) {
+                CSVHelper.saveEmployeeData(employees);
+                JOptionPane.showMessageDialog(this, "Employee deleted successfully!");
+                loadEmployeeTable(); // Refresh table after delete
+            } else {
+                JOptionPane.showMessageDialog(this, "Employee not found.");
+            }
+        }
+        }
     }//GEN-LAST:event_btnDeleteEmployeeActionPerformed
+
+    private void btnNewEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnNewEmployeeActionPerformed
+        NewEmployeeFrame frm = new NewEmployeeFrame();
+        frm.setVisible(true);
+
+        frm.addWindowListener(new java.awt.event.WindowAdapter() {
+            @Override
+            public void windowClosed(java.awt.event.WindowEvent e) {
+                loadEmployeeTable(); // Refresh table after adding
+            }
+        });
+    }//GEN-LAST:event_btnNewEmployeeActionPerformed
+
+    private void btnModifyEmployeeActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnModifyEmployeeActionPerformed
+        int selectedRow = employeeTable.getSelectedRow();
+
+        if (selectedRow == -1) {
+            JOptionPane.showMessageDialog(this, "Please select an employee to modify.");
+            return;
+        }
+
+        // Get employee ID from index 0
+        String selectedEmployeeId = employeeTable.getValueAt(selectedRow, 0).toString();
+
+        // Load employee data from csv
+        List<String[]> allEmployees = CSVHelper.loadEmployeeData();
+        for (String[] emp : allEmployees) {
+            if (emp[0].equals(selectedEmployeeId)) {
+                
+                // Open ModifyEmployeeFrame with selected data
+                ModifyEmployeeFrame modifyFrame = new ModifyEmployeeFrame(emp);
+                modifyFrame.setVisible(true);
+                
+                modifyFrame.addWindowListener(new java.awt.event.WindowAdapter() {
+                    @Override
+                    public void windowClosed(java.awt.event.WindowEvent e) {
+                        loadEmployeeTable(); // Refresh table after modifying
+                }
+            });
+                
+                return;
+            }
+        }
+        JOptionPane.showMessageDialog(this, "Employee record not found.");
+    }//GEN-LAST:event_btnModifyEmployeeActionPerformed
 
     /**
      * @param args the command line arguments
@@ -212,10 +306,10 @@ public class EmployeeListFrame extends javax.swing.JFrame {
     private javax.swing.JButton btnModifyEmployee;
     private javax.swing.JButton btnNewEmployee;
     private javax.swing.JButton btnViewEmployee;
+    private javax.swing.JTable employeeTable;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JLabel jLabel2;
     private javax.swing.JPanel jPanel1;
     private javax.swing.JScrollPane jScrollPane1;
-    private javax.swing.JTable jTable1;
     // End of variables declaration//GEN-END:variables
 }

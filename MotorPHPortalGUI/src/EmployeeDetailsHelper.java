@@ -36,8 +36,8 @@ public class EmployeeDetailsHelper {
                     "\nSalary Information:\n" +
                     "Basic Salary  : PHP " + employee[13] + "\n" +
                     "Rice Subsidy  : PHP " + employee[14] + "\n" +
-                    "Phone Allow.  : PHP " + employee[15] + "\n" +
-                    "Clothing All. : PHP " + employee[16] + "\n" +
+                    "Phone Allowance  : PHP " + employee[15] + "\n" +
+                    "Clothing Allowance : PHP " + employee[16] + "\n" +
                     "Gross Rate    : PHP " + employee[17] + "\n" +
                     "Hourly Rate   : PHP " + employee[18];
                 
