@@ -61,6 +61,14 @@ public class CSVHelper {
         try (BufferedWriter writer = new BufferedWriter(new FileWriter(filePath));
              CSVPrinter printer = new CSVPrinter(writer, CSVFormat.DEFAULT)) {
 
+            // HEADER!!! very very important
+            // Write will delete first row if this is removed xD
+            printer.printRecord("Employee #", "Last Name", "First Name", "Birthday", "Address",
+                                "Phone Number", "SSS #", "Philhealth #", "TIN #", "Pag-ibig #",
+                                "Status", "Position", "Immediate Supervisor", "Basic Salary",
+                                "Rice Subsidy", "Phone Allowance", "Clothing Allowance",
+                                "Gross Semi-monthly Rate", "Hourly Rate");
+            // Write data rows
             for (String[] row : data) {
                 printer.printRecord((Object[]) row);
             }
