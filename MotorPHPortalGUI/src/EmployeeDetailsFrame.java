@@ -7,6 +7,7 @@
  *
  * @author Winter Melon
  */
+import java.util.Map;
 import java.util.List;
 import javax.swing.JPanel;
 import javax.swing.JScrollPane;
@@ -21,9 +22,14 @@ public class EmployeeDetailsFrame extends javax.swing.JFrame {
         txtDetails.setText(EmployeeDetailsHelper.getEmployeeDetails(employeeId)); 
     }
 
+    // Stores attendance records for viewing and salary computation -- so no need to load again from csv
+    private List<String[]> currentAttendanceRecords; 
+    
     /**
      * Creates new form EmployeeDetailsFrame
-     */
+     * Panels + Details + Dropdown
+     * @param employeeId the ID of employee to display xD
+     **/
     public EmployeeDetailsFrame(String employeeId) {
         initComponents();
         setLocationRelativeTo(null);
@@ -248,15 +254,15 @@ public class EmployeeDetailsFrame extends javax.swing.JFrame {
         javax.swing.JOptionPane.showMessageDialog(this, "Please select a valid month and year.");
         return;
     }
-
+        
     // Convert month name to number format
     String[] months = { "", "January", "February", "March", "April", "May", "June",
                         "July", "August", "September", "October", "November", "December" };
     int monthIndex = java.util.Arrays.asList(months).indexOf(selectedMonth);
     String monthNumber = String.format("%02d", monthIndex);
 
-    // Get records
-    List<String[]> records = EmployeeAttendanceHelper.getAttendanceRecords(employeeId, monthNumber, selectedYear);
+    // Get attendance records saved
+    currentAttendanceRecords = EmployeeAttendanceHelper.getAttendanceRecords(employeeId, monthNumber, selectedYear);
 
     // Set to table
     DefaultTableModel model = new DefaultTableModel();
@@ -264,18 +270,57 @@ public class EmployeeDetailsFrame extends javax.swing.JFrame {
         "Date", "Time In", "Time Out", "Hours Worked", "Late", "Overtime"
     });
 
-    for (String[] row : records) {
+    for (String[] row : currentAttendanceRecords) {
         model.addRow(row);
     }
 
     tblAttendance.setModel(model);
 
-    // Show attendance panel
+    // Show Attendance Panel
     ((java.awt.CardLayout) contentPanel.getLayout()).show(contentPanel, "Attendance");
     }//GEN-LAST:event_btnAttendanceActionPerformed
 
     private void btnSalaryActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnSalaryActionPerformed
-        ((java.awt.CardLayout) contentPanel.getLayout()).show(contentPanel, "Salary");
+    // Load attendance record first
+    if (currentAttendanceRecords == null || currentAttendanceRecords.isEmpty()) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Please view attendance first before computing salary.");
+        return;
+    }
+
+    // Uses combo box selection to filter out attendance
+    String selectedMonth = drpMonth.getSelectedItem().toString();
+    String selectedYear = drpYear.getSelectedItem().toString();
+    
+    // Error dialog if index 0 or label is selected
+    if (selectedMonth.equals("[Month]") || selectedYear.equals("[Year]")) {
+        javax.swing.JOptionPane.showMessageDialog(this, "Please select a valid month and year.");
+        return;
+    }
+
+    int monthIndex = drpMonth.getSelectedIndex();
+    String formattedMonth = String.format("%02d", monthIndex);
+    
+    Map<String, String> salarySummary = SalaryComputationHelper.computeMonthlySalary(
+        employeeId, formattedMonth, selectedYear, currentAttendanceRecords
+    );
+
+    // Show results
+    panelSalary.removeAll();
+    javax.swing.JTextArea txtSalary = new javax.swing.JTextArea();
+    txtSalary.setEditable(false);
+    txtSalary.setLineWrap(true);
+    txtSalary.setWrapStyleWord(true);
+    StringBuilder builder = new StringBuilder();
+    for (Map.Entry<String, String> entry : salarySummary.entrySet()) {
+        builder.append(String.format("%-25s: %s%n", entry.getKey(), entry.getValue()));
+    }
+    txtSalary.setText(builder.toString());
+    panelSalary.add(new javax.swing.JScrollPane(txtSalary), java.awt.BorderLayout.CENTER);
+    panelSalary.revalidate();
+    panelSalary.repaint();
+    
+    // Shw Salary Panel
+    ((java.awt.CardLayout) contentPanel.getLayout()).show(contentPanel, "Salary");
     }//GEN-LAST:event_btnSalaryActionPerformed
 
     private void btnDetailsActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_btnDetailsActionPerformed
