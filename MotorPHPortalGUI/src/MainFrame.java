@@ -49,6 +49,7 @@ public MainFrame() {
         imgLogo = new javax.swing.JLabel();
         lblFirstMessage = new javax.swing.JLabel();
         btnViewEmployeeList = new javax.swing.JButton();
+        jLabel2 = new javax.swing.JLabel();
         jLabel1 = new javax.swing.JLabel();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
@@ -76,6 +77,11 @@ public MainFrame() {
             }
         });
         getContentPane().add(btnViewEmployeeList, new org.netbeans.lib.awtextra.AbsoluteConstraints(170, 270, 200, -1));
+
+        jLabel2.setFont(new java.awt.Font("Segoe UI", 1, 36)); // NOI18N
+        jLabel2.setForeground(new java.awt.Color(255, 255, 255));
+        jLabel2.setText("MotorPH Portal");
+        getContentPane().add(jLabel2, new org.netbeans.lib.awtextra.AbsoluteConstraints(130, 30, -1, -1));
 
         jLabel1.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
         jLabel1.setIcon(new javax.swing.ImageIcon(getClass().getResource("/resources/img/login-bg.jpg"))); // NOI18N
@@ -127,6 +133,7 @@ public MainFrame() {
     private javax.swing.JButton btnViewEmployeeList;
     private javax.swing.JLabel imgLogo;
     private javax.swing.JLabel jLabel1;
+    private javax.swing.JLabel jLabel2;
     private javax.swing.JLabel lblFirstMessage;
     // End of variables declaration//GEN-END:variables
 }

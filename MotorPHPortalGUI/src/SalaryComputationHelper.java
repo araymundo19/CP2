@@ -9,7 +9,7 @@
  */
 
 import java.text.NumberFormat;
-import java.util.Locale;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 public class SalaryComputationHelper {
@@ -22,7 +22,20 @@ public class SalaryComputationHelper {
         int minute = Integer.parseInt(parts[1]);
         return hour + (minute / 60.0);
     }
-    
+
+    private static boolean isFirstHalf(String dateStr) {
+        try {
+            SimpleDateFormat sdf = new SimpleDateFormat("MM/dd/yyyy");
+            Date date = sdf.parse(dateStr);
+            Calendar cal = Calendar.getInstance();
+            cal.setTime(date);
+            int day = cal.get(Calendar.DAY_OF_MONTH);
+            return day <= 15;
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
     public static Map<String, String> computeMonthlySalary(
         String employeeId,
         String month,
@@ -42,7 +55,7 @@ public class SalaryComputationHelper {
             salarySummary.put("Error", "Employee not found.");
             return salarySummary;
         }
-                
+
         // Parse salary values to remove commas
         double basicSalary = Double.parseDouble(employee[13].replace(",", ""));
         double riceSubsidy = Double.parseDouble(employee[14].replace(",", ""));
@@ -50,53 +63,83 @@ public class SalaryComputationHelper {
         double clothingAllowance = Double.parseDouble(employee[16].replace(",", ""));
         double hourlyRate = Double.parseDouble(employee[18].replace(",", ""));
 
-        // Use passed-in attendance records
-        double totalHoursWorked = 0;
-        double totalLateTime = 0;
-        double totalOvertimeHours = 0;
+        // Half-month breakdown
+        double totalHoursFirstHalf = 0, totalLatesFirstHalf = 0, totalOTFirstHalf = 0;
+        double totalHoursSecondHalf = 0, totalLatesSecondHalf = 0, totalOTSecondHalf = 0;
 
-        // Parse attendance records for computation
         for (String[] row : attendanceRecords) {
-            totalHoursWorked += convertToDecimal(row[3]); // Hours Worked
-            totalLateTime += convertToDecimal(row[4]); // Late Time
-            totalOvertimeHours += convertToDecimal(row[5]); // Overtime
+            boolean isFirst = isFirstHalf(row[1]);
+            double hours = convertToDecimal(row[3]);
+            double late = convertToDecimal(row[4]);
+            double ot = convertToDecimal(row[5]);
+            if (isFirst) {
+                totalHoursFirstHalf += hours;
+                totalLatesFirstHalf += late;
+                totalOTFirstHalf += ot;
+            } else {
+                totalHoursSecondHalf += hours;
+                totalLatesSecondHalf += late;
+                totalOTSecondHalf += ot;
+            }
         }
 
-        // Compute late and OT
-        double lateDeduction = (totalLateTime) * hourlyRate;
-        double overtimePay = totalOvertimeHours * hourlyRate * 1.25;
+        // Allowances and subsidies split evenly
+        double halfBasic = basicSalary / 2.0;
+        double halfRice = riceSubsidy / 2.0;
+        double halfPhone = phoneAllowance / 2.0;
+        double halfClothing = clothingAllowance / 2.0;
+        double halfWithholdingTax = MandatoryDeductionsHelper.computeWithholdingTax(basicSalary, year) / 2.0;
 
-        // Mandatory deductions helper
+        // First half computation
         double sss = MandatoryDeductionsHelper.computeSSS(basicSalary, year);
+        double lateDeduction1 = totalLatesFirstHalf * hourlyRate;
+        double overtimePay1 = totalOTFirstHalf * hourlyRate * 1.25;
+        double gross1 = halfBasic + halfRice + halfPhone + halfClothing + overtimePay1;
+        double deduction1 = sss + halfWithholdingTax + lateDeduction1;
+        double net1 = gross1 - deduction1;
+
+        // Second half computation
         double philhealth = MandatoryDeductionsHelper.computePhilhealth(basicSalary, year);
         double pagibig = MandatoryDeductionsHelper.computePagibig(basicSalary, year);
-        double withholdingTax = MandatoryDeductionsHelper.computeWithholdingTax(basicSalary, year);
+        double lateDeduction2 = totalLatesSecondHalf * hourlyRate;
+        double overtimePay2 = totalOTSecondHalf * hourlyRate * 1.25;
+        double gross2 = halfBasic + halfRice + halfPhone + halfClothing + overtimePay2;
+        double deduction2 = philhealth + pagibig + halfWithholdingTax + lateDeduction2;
+        double net2 = gross2 - deduction2;
 
-        // Salary Computation
-        double grossPay = basicSalary + riceSubsidy + phoneAllowance + clothingAllowance + overtimePay;
-        double totalDeductions = sss + philhealth + pagibig + withholdingTax + lateDeduction;
-        double netPay = grossPay - totalDeductions;
+        // Total
+        double grossPay = gross1 + gross2;
+        double totalDeductions = deduction1 + deduction2;
+        double netPay = net1 + net2;
 
-        // Placeholder format <UNFORMATTED> D:
         NumberFormat currencyFormat = NumberFormat.getNumberInstance(Locale.US);
         currencyFormat.setMinimumFractionDigits(2);
         currencyFormat.setMaximumFractionDigits(2);
-        
+
         salarySummary.put("Employee ID", employeeId);
         salarySummary.put("Name", employee[2] + " " + employee[1]);
         salarySummary.put("Month-Year", month + "-" + year);
-        
-        salarySummary.put("Basic Salary", currencyFormat.format(basicSalary));
-        salarySummary.put("Rice Subsidy", currencyFormat.format(riceSubsidy));
-        salarySummary.put("Phone Allowance", currencyFormat.format(phoneAllowance));
-        salarySummary.put("Clothing Allowance", currencyFormat.format(clothingAllowance));
-        salarySummary.put("Overtime Pay", currencyFormat.format(overtimePay));
-        salarySummary.put("Late Deduction", currencyFormat.format(lateDeduction));
-        salarySummary.put("SSS", currencyFormat.format(sss));
-        salarySummary.put("PhilHealth", currencyFormat.format(philhealth));
-        salarySummary.put("Pag-ibig", currencyFormat.format(pagibig));
-        salarySummary.put("Withholding Tax", currencyFormat.format(withholdingTax));
 
+        salarySummary.put("--- First Half (1-15) ---", "");
+        salarySummary.put("Basic Salary (1-15)", currencyFormat.format(halfBasic));
+        salarySummary.put("Allowances (1-15)", currencyFormat.format(halfRice + halfPhone + halfClothing));
+        salarySummary.put("Overtime (1-15)", currencyFormat.format(overtimePay1));
+        salarySummary.put("Late Deduction (1-15)", currencyFormat.format(lateDeduction1));
+        salarySummary.put("SSS", currencyFormat.format(sss));
+        salarySummary.put("Withholding Tax (1-15)", currencyFormat.format(halfWithholdingTax));
+        salarySummary.put("Net Pay (1-15)", currencyFormat.format(net1));
+
+        salarySummary.put("--- Second Half (16-EOM) ---", "");
+        salarySummary.put("Basic Salary (16-EOM)", currencyFormat.format(halfBasic));
+        salarySummary.put("Allowances (16-EOM)", currencyFormat.format(halfRice + halfPhone + halfClothing));
+        salarySummary.put("Overtime (16-EOM)", currencyFormat.format(overtimePay2));
+        salarySummary.put("Late Deduction (16-EOM)", currencyFormat.format(lateDeduction2));
+        salarySummary.put("PhilHealth", currencyFormat.format(philhealth));
+        salarySummary.put("Pag-IBIG", currencyFormat.format(pagibig));
+        salarySummary.put("Withholding Tax (16-EOM)", currencyFormat.format(halfWithholdingTax));
+        salarySummary.put("Net Pay (16-EOM)", currencyFormat.format(net2));
+
+        salarySummary.put("--- Monthly Total ---", "");
         salarySummary.put("Gross Pay", currencyFormat.format(grossPay));
         salarySummary.put("Total Deductions", currencyFormat.format(totalDeductions));
         salarySummary.put("Net Pay", currencyFormat.format(netPay));
@@ -104,4 +147,3 @@ public class SalaryComputationHelper {
         return salarySummary;
     }
 }
-
