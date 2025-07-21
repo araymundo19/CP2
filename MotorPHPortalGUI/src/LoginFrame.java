@@ -23,6 +23,7 @@ public class LoginFrame extends javax.swing.JFrame {
     String enteredPass = new String(txtPassword.getPassword()).trim();
 
     boolean loginSuccess = false;
+    String role = "User"; // default fallback
 
     for (String[] account : CSVHelper.loadAccountData()) {
         String id = account[0].trim();
@@ -30,13 +31,14 @@ public class LoginFrame extends javax.swing.JFrame {
 
         if (enteredId.equals(id) && enteredPass.equals(pass)) {
             loginSuccess = true;
+            role = account.length > 2 ? account[2].trim().toLowerCase() : "User";
             break;
         }
     }
 
     if (loginSuccess) {
         lblStatus.setText("Login successful.");
-        MainFrame main = new MainFrame(enteredId);
+        MainFrame main = new MainFrame(enteredId, role); 
         main.setVisible(true);
         this.dispose();
     } else {
